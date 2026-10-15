@@ -35,3 +35,19 @@ python check_volume_params.py <卷工作目录>/scripts
 
 检查项六类：路径/文件名、sha12 锚定、册码与章码正则、页码偏移、数量断言、卷特有 ID 与文案。
 新卷沉淀出的新检查项形态，须回写 skill 的 CHECKS 清单（见 iteration-protocol.md）。
+
+## md 源管线变体（v1.3.0，lvse 实证）
+
+**适用**：有官方无水印 PDF、无 docx 源的卷。参考实现与逐脚本参数表见
+`scripts/md_source/README.md`（8 脚本：convert → extract_md → parse_items_lvse →
+parse_desc_lvse → finalize_lvse → cost_check_lvse → build_front_lvse → gate_lvse）。
+
+- **与 docx 链差异**：无 align_to_pdf/align_desc（md 即权威提取源）；新增阶段 0 转换层
+  （裸 fitz，禁 pymupdf4llm）；目录由 parse_desc 从 nowm.pdf dict 双栏重建（不经 md）；
+  **双源锚定**：提取用 nowm 干净源、P1 校验用官方 wm 原版，manifest 同锚两者 sha12 +
+  convert 脚本 sha12。
+- **高危混用点新增**：④ 转换层字号分级与水印字符集（漏改 → md 源本身错，下游全链带错）；
+  ⑤ H1 恒等式项数（坑 32：三项式/四项制因卷而异，开工前用已知好卷校准）；
+  ⑥ P1 正则输入文本口径（坑 33：必须未去空白原文）。
+- **扫描纪律**：md 源卷工作目录只放 md_source 变体 8 脚本；check_volume_params 扫描时
+  docx 链与 md 链的卷参数基准值互为"待替换残留"，任一残留都须清零才开工。

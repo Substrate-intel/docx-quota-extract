@@ -2,6 +2,15 @@
 
 格式：`- 版本 | 日期 | 来源 | 变更摘要`；来源=贡献者标识/卷名；合并须经作者过审（iteration-protocol.md 第四节）。
 
+## v1.3.0 · 2026-10-15 · 爪哥（作者）· lvse（绿色建筑工程定额）md 源管线变体验证回写
+
+- **第三卷全链验证 + 新管线变体**：绿色建筑卷（269 页官方 PDF，无 docx 源）以 **md 为权威提取源**完成结构化——487 子目（20-1~20-487 连续零缺失）/ 目录 77 行（双栏重组）/ 条文 53 条，九门全绿 + 端到端重跑字节级复现 + P1 对**官方带水印原版**取证 487/487；
+- **新增 `scripts/md_source/`**（8 脚本 + README）：convert（裸 fitz 转换层）→ extract_md → parse_items_lvse → parse_desc_lvse → finalize_lvse → cost_check_lvse → build_front_lvse → gate_lvse；成果契约与 docx 链完全对标（lvse_quota.db schema 同构 sz05 docx_quota.db + src_page 列，前端复用 sz05 template，九门同构）；
+- **双源架构定版**：提取用 nowm 干净源、P1 校验用官方 wm 原版，baseline_manifest 同锚两者 sha12 + convert 脚本 sha12；
+- **新形态坑 9 条入 pitfalls（坑 25-33）**：转换层三连（pymupdf4llm 段错误/旋转水印 redact 整页抹除/E-BZ 小数空格）、页码散字外侧边分区 offset、章标题前缀剥离致 kind 判界失效、md 合并单元格形态差异（行判别三法）、工作内容拆行双遍扫描、节标题跟表验证、目录双栏重组、H1 四项制因卷校准、P1 未去空白原文正则；
+- **volume_params/pipeline 增补**：md 源变体章节 + 高危混用点 ④⑤⑥（转换层字号分级/H1 项数/P1 文本口径）；
+- 与 docx 链关系：**有 docx 源优先 docx 链**（token 更低、无转换层误差）；md 链用于"只有 PDF"的卷。
+
 ## v1.2.1 · 2026-10-15 · 爪哥（作者）· 自动回流机制化（sz01 断点根治）
 
 - **新增 `scripts/sync_skill_remote.py`**：skill 仓自动回流（dirty 检测→commit→打 tag→push，幂等）。根治 sz01 实证断点：v1.2.0 回写完成但停留工作区，用户查问才发现未推远程；
