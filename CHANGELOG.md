@@ -2,6 +2,14 @@
 
 格式：`- 版本 | 日期 | 来源 | 变更摘要`；来源=贡献者标识/卷名；合并须经作者过审（iteration-protocol.md 第四节）。
 
+## v1.4.0 · 2026-10-15 · 爪哥（作者）· lvse 前端契约错配修复回写（用户实证反馈）
+
+- **用户报告**：绿色建筑卷成果库首页永远「加载中…」——门控全绿但前端假死；
+- **根因（坑 34）**：md_source 参考实现 v1 的 build_front_lvse 产出 docx 短键契约 DATA，与 PDF 版 template.html 渲染契约错配（`DATA.stats.h`/`DATA.sections.some` 相继 TypeError）；冒烟只验文件未验渲染（坑 19 高阶形态）；
+- **build_front_lvse.py v2**：按 sz05 docx 版 build_docx_front_pdf_style.py 成熟契约映射重写（stats/sections/toc/items 长键/details/validate/nodes/REVIEW 两源全套）；卷适配点显式替换（itemPrefix→读 meta.code_prefix、节印页 -27→-meta.offset、搜索示例/卡片副标题/标题全套）；
+- **新增 smoke_front_lvse.mjs**：渲染级冒烟机械化（node + 最小 DOM stub 执行内联脚本：启动链零异常 + main 非「加载中」+ 13 视图路由真跑），前端完成态=渲染级冒烟全绿；
+- 验证：冒烟 22/22；端到端重跑字节级一致；门控 8 绿→刷指纹→九门 9/9。
+
 ## v1.3.0 · 2026-10-15 · 爪哥（作者）· lvse（绿色建筑工程定额）md 源管线变体验证回写
 
 - **第三卷全链验证 + 新管线变体**：绿色建筑卷（269 页官方 PDF，无 docx 源）以 **md 为权威提取源**完成结构化——487 子目（20-1~20-487 连续零缺失）/ 目录 77 行（双栏重组）/ 条文 53 条，九门全绿 + 端到端重跑字节级复现 + P1 对**官方带水印原版**取证 487/487；

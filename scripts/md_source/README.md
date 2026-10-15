@@ -16,9 +16,17 @@ nowm.pdf ──(0) convert_greenbuilding.py ──> source.md [含 <!-- Pn --> �
       ├─(7) parse_desc_lvse.py   ──> lvse_toc.json + lvse_desc_rules.json   [目录/条文层]
       ├─(5) finalize_lvse.py     ──> lvse_quota.db
       ├─(6) cost_check_lvse.py   ──> cost_check_report.json（H1 四项制 + P1 对官方 wm 原版取证）
-      ├─(9) build_front_lvse.py  ──> web/index.html
+      ├─(9) build_front_lvse.py  ──> web/index.html  ← ⚠️ 必须 PDF 长键契约（坑 34）
+      ├─(9b) smoke_front_lvse.mjs ──> 渲染级冒烟（node DOM stub：启动链+13 视图路由）
       └─(10) gate_lvse.py        ──> baseline_manifest.json（10 文件指纹 + 双源锚定）
 ```
+
+**⚠️ 坑 34（v2 教训）**：build_front 必须产出 **PDF 版 template.html 的长键契约**
+DATA（meta.book_name/stats.h/sections[].block_type/toc/items[].item_code+node_id/
+details/validate/nodes/REVIEW 两源），**不是 docx 短键契约**——错配则首页永远「加载中」。
+前端完成态=**渲染级冒烟全绿**（`node smoke_front_lvse.mjs`），文件产出不算完成。
+卷适配硬编码点：itemPrefix（章码→子目前缀推导）→ 读 `DATA.meta.code_prefix`；
+节印页 `-27` → `-DATA.meta.offset`；搜索示例/卡片副标题/标题按卷替换。
 
 **与 docx 链的结构差异**：
 - 无 align_to_pdf/align_desc 阶段——md 即权威提取源（docx 链需 PDF 库对齐；md 源没有 PDF 库）；
@@ -45,9 +53,10 @@ nowm.pdf ──(0) convert_greenbuilding.py ──> source.md [含 <!-- Pn --> �
 `check_volume_params.py` 对 md_source 变体的检查基准=本目录文件（扫描前把 CHECKS 里的
 sz05 基准值理解为"上一卷残留"，lvse 值同理——新卷复制后两者都是待替换残留）。
 
-## 坑位速查（详见 references/pitfalls.md 坑 25-33）
+## 坑位速查（详见 references/pitfalls.md 坑 25-34）
 
 - 转换层：pymupdf4llm 段错误 / 旋转水印 redact 整页抹除 / E-BZ 页码散字（坑 25/26）；
 - md 解析层：章标题前缀剥离致 kind 判界失效（坑 27）/ 合并单元格形态差异（坑 28）/
   工作内容拆行双遍扫描（坑 29）/ 节标题跟表验证（坑 30）；
-- 校验层：目录双栏重组（坑 31）/ H1 四项制（坑 32）/ P1 未去空白原文正则（坑 33）。
+- 校验层：目录双栏重组（坑 31）/ H1 四项制（坑 32）/ P1 未去空白原文正则（坑 33）；
+- 前端层：契约错配致「加载中」假死 + 渲染级冒烟（坑 34）。
