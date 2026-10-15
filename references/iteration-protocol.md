@@ -22,7 +22,7 @@ sz01 v1.2.0 曾实证踩过断点：回写完成、commit/push 却没做，用�
 自 v1.2.1 起回写清单执行完毕后**必须**机械回流（不再依赖人工记得推）：
 
 1. **skill 仓回流**：`python scripts/sync_skill_remote.py --tag vX.Y.Z -m "<卷名>回写 vX.Y.Z"`（dirty 检测→commit→打 tag→push，幂等；工作区干净时只补推）；
-2. **成果仓回流**：`python <项目根>/sync_remote.py`（各卷 db/前端/交付报告/门控基线 → `ln2024-quota-volumes` 私有仓，幂等 up-to-date 即止）。
+2. **成果仓回流**：`python <项目根>/sync_remote.py`（各卷 db/前端/交付报告/门控基线 → `china-quota-volumes` 公开仓（全国架构，地区层 `<region>/卷名/`，REGION_MAP 注册制），幂等 up-to-date 即止）。
 
 成果仓铁律：源文件（input/ 官方 PDF、docx 源）**永不回流**（版权+体积）；中间产物
 （out/*.json 过程态、取证 jpg）不回流（基线指纹已锚定可复现）。脚本自动发现新卷，

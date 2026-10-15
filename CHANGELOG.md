@@ -5,7 +5,7 @@
 ## v1.2.1 · 2026-10-15 · 爪哥（作者）· 自动回流机制化（sz01 断点根治）
 
 - **新增 `scripts/sync_skill_remote.py`**：skill 仓自动回流（dirty 检测→commit→打 tag→push，幂等）。根治 sz01 实证断点：v1.2.0 回写完成但停留工作区，用户查问才发现未推远程；
-- **新增项目级 `sync_remote.py`（sp/sync_remote.py）**：九卷提取成果自动回流 GitHub 私有仓 `ln2024-quota-volumes`（db/前端/交付报告/门控基线 35 文件，自动发现新卷零维护；源文件/中间产物永不回流）；
+- **新增项目级 `sync_remote.py`（sp/sync_remote.py）**：提取成果自动回流 GitHub 公开仓 `china-quota-volumes`（db/前端/交付报告/门控基线 35 文件，自动发现新卷零维护；源文件/中间产物永不回流；2026-10-15 升级全国架构：仓改名+转公开+地区层 `<region>/卷名/`，REGION_MAP 注册新地区一行接入）；
 - **iteration-protocol.md 收官清单固化「回流两连」**：回写完成动作从"人工记得推"升级为机械步骤（协议 v1.2.1 起强制）；
 - 修复成果回流 rel 路径覆盖 bug：双前端卷（sz05 PDF 版 + docx 版）并存时分名 `index.html` / `index_docx.html`。
 
