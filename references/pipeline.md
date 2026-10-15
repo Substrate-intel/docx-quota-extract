@@ -118,3 +118,11 @@ source.docx ──(1)extract_docx──> docx_extract_full.json [保真层·只�
 3. 十阶段顺序跑 → 疑点逐条取证（禁静默）；
 4. 九门全绿 + 刷指纹 + 端到端字节级复现；
 5. 分卷冒烟 + 交付报告（覆盖清单+人工复核项）。
+
+## md 源管线变体（v1.3.0，lvse·绿色建筑卷验证）
+
+适用「有官方无水印 PDF、无 docx 源」的卷。十阶段中：阶段 0（convert，裸 fitz PDF→md）+
+阶段 1/2/5/6/7/9/10 改吃 md，**阶段 3/4/8 不适用**（无 PDF 对照库，md 即权威源；索引由
+extract_md 直产，目录由 parse_desc 双栏重建）。成果契约与 docx 链完全对标（db schema
+同构 + sz05 template 前端 + 九门门控）。双源架构：提取 nowm / 校验官方 wm。
+详见 `scripts/md_source/README.md`（数据流+参数表）与 pitfalls 坑 25-33。
