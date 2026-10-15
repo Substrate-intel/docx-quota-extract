@@ -117,6 +117,12 @@ extract_docx → parse_items → build_index → align_to_pdf(如有PDF库) → 
 - 条文记录与 PDF sections 全量同构、text 字节级全等、diff=0、附表 cell_diff=0（sz05 基准：175 条）；
 - 九门全绿 + 端到端重跑字节级复现 + 前端冒烟全过。
 
+## 成果回流与悬赏协同（metal 站接单场景）
+
+提取成果回流全国库（`china-quota-volumes` 双仓）→ webhook 自动协同 → 悬赏自动核销发分，
+接单者 8 步闭环见 `references/contribution.md`（md 源卷与 docx 卷通用）。要点：db 不走
+公开仓 PR（收私有仓+sha256 门禁）、官方源永不回流（版权）、九门全绿才有提 PR 资格。
+
 ## Resources
 
 ### scripts/（sz05 全书验证过的参考实现，须按卷参数化适配）
