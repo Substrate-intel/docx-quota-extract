@@ -63,8 +63,11 @@ def main():
     if tag:
         run(["git", "-c", "user.name=zhuage", "-c", "user.email=zhuage@local",
              "tag", "-a", tag, "-m", msg])
-    run(["git", "push", "origin", "main", "--tags"], check=False)
+    push = run(["git", "push", "origin", "main", "--tags"], check=False)
     head = run(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()
+    if push.returncode != 0:
+        print(push.stderr.strip() or "push 失败（网络间歇）——commit 已落本地，网络恢复后重跑本脚本自动补推")
+        raise SystemExit(1)
     print(f"已回流 {len(dirty)} 个文件 -> commit {head}" + (f" + tag {tag}" if tag else ""))
     for f in dirty:
         print("  +", f)
