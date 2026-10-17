@@ -2,6 +2,11 @@
 
 格式：`- 版本 | 日期 | 来源 | 变更摘要`；来源=贡献者标识/卷名；合并须经作者过审（iteration-protocol.md 第四节）。
 
+## v1.5.2 · 2026-10-17 · 爪哥（作者）· 悬赏自动发分加「交付记录硬门槛」（同步 md-quota-extract v1.8.2）
+
+- 用户裁定：**必须有 QuotaSubmission 交付记录才自动发分**（杜绝「他人交付、认领人领分」的不可逆错配）；
+- contribution.md 第 8 条补硬门槛四判据（bountyId 归属 / account==claimBy / 非 rejected / 有实体凭据）+ 五个原因码（no-submission / submission-not-from-claimer / submission-rejected / submission-empty / no-claimer）+ 人工核销端点同口径拦截（admin 例外 force=true+reason 留痕）。
+
 ## v1.5.1 · 2026-10-17 · 爪哥（作者）· 悬赏回流自动核销（同步 md-quota-extract v1.8.1）
 
 - references/contribution.md 第 8 条同步新口径：协同升级为 verified→settled **自动发分**（points.earn pool='bounty' 幂等；QUOTA_AUTO_SETTLE=off 留人工闸）+ 匹配三通道（targetVol 精确绑卷 / 文本窗口 / 关键词实体，价格册与消耗量册互斥）；

@@ -33,7 +33,8 @@
 7. **维护者审核**：基线指纹复跑核验、九门报告比对、db sha256 校验 → 合并公开仓 PR + db 验收入私有仓 `china-quota-volumes-data`；
 8. **自动协同（零人工，含自动发分）**：公开仓 push → GitHub webhook → 服务器（134.175.50.9:3001）拉取 volumes.json + 私有仓 db（sha256 门禁）→ **悬赏自动核销发分**：
    - `open` 状态悬赏 → 匹配 → 自动 `closed`；
-   - `claimed/submitted` 状态 → 自动 `verified` → **自动 `settled` 发分**（`points.earn` pool='bounty'，refId=`quota-bounty:<id>` 唯一索引幂等，重复协同不重发；SystemSetting `QUOTA_AUTO_SETTLE=off` 可关自动发分、退回人工闸）。
+   - `claimed/submitted` 状态 → 自动 `verified` → **凭「有效交付记录」自动 `settled` 发分**（`points.earn` pool='bounty'，refId=`quota-bounty:<id>` 唯一索引幂等，重复协同不重发；SystemSetting `QUOTA_AUTO_SETTLE=off` 可关自动发分、退回人工闸）。
+   - **交付记录硬门槛（2026-10-17 用户裁定）**：自动发分前必须存在有效 `QuotaSubmission` 交付记录——四判据全满足：① 记录归属该悬赏（`bountyId` 匹配）② `account == claimBy`（防影子账户迁移遗漏/库内异动）③ 状态非 `rejected`（未过门退回不算交付）④ 有实体凭据（`sha256` / 文件名 / 站内路径，排除空壳登记）；有「已过门」记录者优先。无有效记录 → **只转 `verified` 不发分**，原因码写入悬赏 `verifyNote` 并进协同报告 `settleBlocked`（`no-submission` / `submission-not-from-claimer` / `submission-rejected` / `submission-empty` / `no-claimer`）——杜绝「他人交付、认领人领分」的**不可逆错配**（ledger 无回拨端点）。人工核销端点 `POST /api/quota-bounty/:id/settle` 同口径拦截，admin 例外须 `force=true` + `reason`（理由留痕 `verifyNote`）。
    - **匹配三通道**（2026-10-17 根治，xj01 实证）：① `targetVol` 精确绑卷（悬赏发布时选定目标卷，最高优先，不受书名文本差异影响）；② 原文本双向包含 / ≥3 字连续窗口；③ 关键词实体匹配（专业词 ≥1 **且** 泛词 ≥1，治「建筑专业定额最新版」↔「房屋建筑与装饰消耗量定额」类近义不同表述）；另价格册类词（价目表/单价册/单价表/价格表）与消耗量定额卷**互斥**（防价目表悬赏误命中消耗量卷、反之亦然）。
    - **悬赏发布建议**：书名尽量含目标卷 label 的 ≥3 字窗口（注意「装饰工程」不命中「装饰消耗量」），或直接用 `targetVol` 绑卷最稳。
 
