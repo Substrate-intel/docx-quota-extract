@@ -2,7 +2,7 @@
 name: docx-quota-extract
 description: 定额/规范类 docx 原件 → 结构化数据库 + 前端章节树的确定性提取管线（辽宁省2024定额 sz05 全书 3014 子目验证定版；v1.3.0 起含 md 源变体，适用于只有无水印 PDF、无 docx 源的卷，lvse 绿色建筑卷 487 子目验证）。当用户拿到无水印 Word 版定额（或类似表格密集型工程标准文档）、需要提取定额子目/说明/计算规则/目录并落库、核验、建前端时使用本 skill；docx 提取已裁定为**主力提取方案**（相对 PDF 提取：无字体基线漂移、表格结构天然保真、token 消耗低）。触发词：docx 提取、Word 版结构化、定额子目提取、双源对齐、造价逻辑核、PDF 转 markdown 后结构化提取。
 agent_created: true
-version: 1.1.0
+version: 1.5.1
 ---
 
 # docx-quota-extract：定额 docx → 结构化库 确定性提取管线
