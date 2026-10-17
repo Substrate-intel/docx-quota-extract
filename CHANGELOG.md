@@ -2,6 +2,11 @@
 
 格式：`- 版本 | 日期 | 来源 | 变更摘要`；来源=贡献者标识/卷名；合并须经作者过审（iteration-protocol.md 第四节）。
 
+## v1.5.1 · 2026-10-17 · 爪哥（作者）· 悬赏回流自动核销（同步 md-quota-extract v1.8.1）
+
+- references/contribution.md 第 8 条同步新口径：协同升级为 verified→settled **自动发分**（points.earn pool='bounty' 幂等；QUOTA_AUTO_SETTLE=off 留人工闸）+ 匹配三通道（targetVol 精确绑卷 / 文本窗口 / 关键词实体，价格册与消耗量册互斥）；
+- SKILL.md frontmatter version 补正 1.1.0→1.5.1（历史遗留未随 CHANGELOG 升版）。
+
 ## v1.5.0 · 2026-10-15 · 爪哥（作者）· 补成果回流与 metal 悬赏协同协议（与 md-quota-extract v1.1.0 同步）
 
 - **缺口**：skill 只有自身迭代回流，未覆盖「提取成果回流全国库 → metal 站悬赏自动核销」的接单者闭环；

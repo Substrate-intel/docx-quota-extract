@@ -31,9 +31,11 @@
    PR 描述必须附：**db 的 sha256 + 体积 + 获取方式**（网盘/附件等私下通道交维护者）；若该卷在 VOLUME_META 无注册条目，附一行注册建议（key/label/kind）。
 
 7. **维护者审核**：基线指纹复跑核验、九门报告比对、db sha256 校验 → 合并公开仓 PR + db 验收入私有仓 `china-quota-volumes-data`；
-8. **自动协同（零人工）**：公开仓 push → GitHub webhook → 服务器（134.175.50.9:3001）拉取 volumes.json + 私有仓 db（sha256 门禁）→ **悬赏自动核销**：
-   - `open` 状态悬赏 → 匹配地区+卷 key → 自动 `closed`；
-   - `claimed/submitted` 状态 → 自动转 `verified`（留痕 verifyNote），待管理员人工核销发分。
+8. **自动协同（零人工，含自动发分）**：公开仓 push → GitHub webhook → 服务器（134.175.50.9:3001）拉取 volumes.json + 私有仓 db（sha256 门禁）→ **悬赏自动核销发分**：
+   - `open` 状态悬赏 → 匹配 → 自动 `closed`；
+   - `claimed/submitted` 状态 → 自动 `verified` → **自动 `settled` 发分**（`points.earn` pool='bounty'，refId=`quota-bounty:<id>` 唯一索引幂等，重复协同不重发；SystemSetting `QUOTA_AUTO_SETTLE=off` 可关自动发分、退回人工闸）。
+   - **匹配三通道**（2026-10-17 根治，xj01 实证）：① `targetVol` 精确绑卷（悬赏发布时选定目标卷，最高优先，不受书名文本差异影响）；② 原文本双向包含 / ≥3 字连续窗口；③ 关键词实体匹配（专业词 ≥1 **且** 泛词 ≥1，治「建筑专业定额最新版」↔「房屋建筑与装饰消耗量定额」类近义不同表述）；另价格册类词（价目表/单价册/单价表/价格表）与消耗量定额卷**互斥**（防价目表悬赏误命中消耗量卷、反之亦然）。
+   - **悬赏发布建议**：书名尽量含目标卷 label 的 ≥3 字窗口（注意「装饰工程」不命中「装饰消耗量」），或直接用 `targetVol` 绑卷最稳。
 
 ## 三、维护者侧入库操作（接单者勿动）
 
